@@ -1,0 +1,42 @@
+.button_y {
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+    background-color: white;
+    color: black;
+    border: 1px solid #1c6bb0;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.button_y:hover {
+    color: white;
+    background-color: #1c6bb0;
+}
+.button_n {
+    padding: 10px;
+    margin: 10px;
+    width: 45%;
+    background-color: white;
+    color: black;
+    border: 1px solid #f36b59;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.button_n:hover {
+    color: white;
+    background-color: #f36b59;
+}
+.button_page {
+    padding: 10px;
+    margin: 10px;
+    width: 20%;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+.button_page:hover {
+    color: white;
+    background-color: #f36b59;
+}
