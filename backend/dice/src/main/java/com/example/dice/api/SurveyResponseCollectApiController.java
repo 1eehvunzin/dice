@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SurveyResponseCollectApiController {
+public class SurveyResponseCollectApiController { //응답 저장
 
     @Autowired
     SurveyResponseService surveyResponseService;
+
     @PostMapping("/survey/pages/response")
     public ResponseEntity<SurveyResponse> collect (@RequestBody SurveyResponseDto surveyResponseDto){
         SurveyResponse surveyResponse = surveyResponseService.saveResponse(surveyResponseDto);

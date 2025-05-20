@@ -31,24 +31,51 @@ public class SurveyResponse {
     @CollectionTable(name = "fruits")
     private List<String> fruits;
 
+    @Column
+    private Boolean lifeSatisfaction;
 
+    @Column
+    private Boolean lifeInterest;
 
+    @Column
+    private Boolean lethargy;
 
-//    @Column
-//    private Boolean lifeSatisfaction;
-//
-//    @Column
-//    private Boolean lifeInterest;
-//
-//    @Column
-//    private Boolean lethargy;
-//
-//    @Column
-//    private Boolean loneliness;
-//
-//    @Column
-//    private Boolean emotionalInstability;
-//
-//    @Column
-//    private Boolean motorAbility;
+    @Column
+    private Boolean loneliness;
+
+    @Column
+    private Boolean emotionalInstability;
+
+    @Column
+    private Boolean motorAbility;
+    @Column
+    private Integer difficultyInActivities;
+
+    @Column
+    private String sleepingDisorder;
+
+    @Column
+    private String sleepWake;
+    @Column
+    private String sleepingHour;
+
+    @Column
+    private String drinkingFrequency;
+    @Column
+    private String heavyDrinking;
+    @Column
+    private String badDrinking;
+
+    @Column
+    private String smoking;
+    @Column
+    private String smokingAmount;
+
+    @Column
+    private Integer height;
+    @Column
+    private Integer weight;
+
+    @Column
+    private String academicAbility;
 }

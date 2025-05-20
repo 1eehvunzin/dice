@@ -13,7 +13,7 @@ public class SurveyResponseService {
     private SurveyResponseRepository surveyResponseRepository;
 
     public SurveyResponse saveResponse (SurveyResponseDto surveyResponseDto) {
-        SurveyResponse surveyResponse = surveyResponseDto.toEntity();
-        return surveyResponseRepository.save(surveyResponse);
+        SurveyResponse surveyResponse = surveyResponseDto.toEntity(); //dto를 폼으로 입력받은 후, 엔티티로 변환
+        return surveyResponseRepository.save(surveyResponse); //리포지토리에 엔티티 저장
     }
 }
