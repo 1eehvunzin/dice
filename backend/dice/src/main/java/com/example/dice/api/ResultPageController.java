@@ -1,4 +1,4 @@
-package com.example.dice.api;
-
-public class ResultPageController {
-}
+//package com.example.dice.api;
+//
+//public class ResultPageController {
+//}
