@@ -53,7 +53,7 @@ function Page1({ onMenuClick}) {
         <button className="button_n">아니오</button>
       </div>
 
-    <button className="button_page" onClick={() => navigate('/page2')}>다음으로</button>
+    <button className="button" onClick={() => navigate('/page2')}>다음으로</button>
     
     </div>
   );

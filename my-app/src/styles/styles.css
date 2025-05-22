@@ -26,17 +26,16 @@
     color: white;
     background-color: #f36b59;
 }
-.button_page {
+.button {
     padding: 10px;
     margin: 10px;
-    width: 20%;
     background-color: transparent;
     color: black;
     border: none;
     border-radius: 12px;
     cursor: pointer;
 }
-.button_page:hover {
+.button:hover {
     color: white;
     background-color: #f36b59;
 }
