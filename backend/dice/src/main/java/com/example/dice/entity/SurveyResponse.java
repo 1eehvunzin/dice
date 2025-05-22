@@ -1,19 +1,25 @@
 package com.example.dice.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Setter
+@Builder
 public class SurveyResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long responseId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
     @Column
     private LocalDate date;
@@ -31,24 +37,51 @@ public class SurveyResponse {
     @CollectionTable(name = "fruits")
     private List<String> fruits;
 
+    @Column
+    private Boolean lifeSatisfaction;
 
+    @Column
+    private Boolean lifeInterest;
 
+    @Column
+    private Boolean lethargy;
 
-//    @Column
-//    private Boolean lifeSatisfaction;
-//
-//    @Column
-//    private Boolean lifeInterest;
-//
-//    @Column
-//    private Boolean lethargy;
-//
-//    @Column
-//    private Boolean loneliness;
-//
-//    @Column
-//    private Boolean emotionalInstability;
-//
-//    @Column
-//    private Boolean motorAbility;
+    @Column
+    private Boolean loneliness;
+
+    @Column
+    private Boolean emotionalInstability;
+
+    @Column
+    private Boolean motorAbility;
+    @Column
+    private Integer difficultyInActivities;
+
+    @Column
+    private String sleepingDisorder;
+
+    @Column
+    private String sleepWake;
+    @Column
+    private String sleepingHour;
+
+    @Column
+    private String drinkingFrequency;
+    @Column
+    private String heavyDrinking;
+    @Column
+    private String badDrinking;
+
+    @Column
+    private String smoking;
+    @Column
+    private String smokingAmount;
+
+    @Column
+    private Integer height;
+    @Column
+    private Integer weight;
+
+    @Column
+    private String academicAbility;
 }
