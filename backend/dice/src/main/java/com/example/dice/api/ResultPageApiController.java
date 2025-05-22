@@ -19,11 +19,8 @@
 //
 //@RestController
 //public class ResultPageApiController {
-//    @GetMapping("/surveys/response")
-//    public void viewResultPage() {
-//
-//    }
-//    @PostMapping("/generate-pdf")
+
+//    @PostMapping("/survey/result")
 //    public void generatePdf(@RequestBody SurveyResponseDto dto, HttpServletResponse response) throws IOException {
 //        response.setContentType("application/pdf");
 //        response.setHeader("Content-Disposition", "attachment; filename=DICE_리포트_" + dto.getName() + ".pdf");

@@ -1,14 +1,16 @@
 package com.example.dice.dto;
 
 import com.example.dice.entity.SurveyResponse;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class SurveyResponseDto {
@@ -45,10 +47,32 @@ public class SurveyResponseDto {
 
     private String academicAbility;
 
-    public SurveyResponse toEntity(){
-        return new SurveyResponse(responseId, date, province, city, rememberedWords, fruits, lifeSatisfaction
-        , lifeInterest, lethargy, loneliness, emotionalInstability, motorAbility, difficultyInActivities,
-                sleepingDisorder, sleepWake, sleepingHour, drinkingFrequency, heavyDrinking, badDrinking,
-                smoking, smokingAmount, height, weight, academicAbility);
+    public SurveyResponse toEntity() {
+        return SurveyResponse.builder()
+                .responseId(responseId)
+                .date(date)
+                .province(province)
+                .city(city)
+                .rememberedWords(rememberedWords)
+                .fruits(fruits)
+                .lifeSatisfaction(lifeSatisfaction)
+                .lifeInterest(lifeInterest)
+                .lethargy(lethargy)
+                .loneliness(loneliness)
+                .emotionalInstability(emotionalInstability)
+                .motorAbility(motorAbility)
+                .difficultyInActivities(difficultyInActivities)
+                .sleepingDisorder(sleepingDisorder)
+                .sleepWake(sleepWake)
+                .sleepingHour(sleepingHour)
+                .drinkingFrequency(drinkingFrequency)
+                .heavyDrinking(heavyDrinking)
+                .badDrinking(badDrinking)
+                .smoking(smoking)
+                .smokingAmount(smokingAmount)
+                .height(height)
+                .weight(weight)
+                .academicAbility(academicAbility)
+                .build();
     }
 }
