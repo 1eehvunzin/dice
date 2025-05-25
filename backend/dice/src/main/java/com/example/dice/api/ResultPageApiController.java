@@ -2,7 +2,6 @@ package com.example.dice.api;
 
 import com.example.dice.dto.ScoreInfo;
 import com.example.dice.dto.SurveyAnalysisResultDto;
-import com.example.dice.dto.SurveyResponseDto;
 import com.example.dice.entity.User;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;

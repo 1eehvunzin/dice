@@ -19,8 +19,9 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+
 public class WebSecurityConfig {
 
     private final UserDetailService userService;

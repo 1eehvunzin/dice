@@ -2,9 +2,9 @@ package com.example.dice.dto;
 
 import com.example.dice.entity.SurveyResponse;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.List;

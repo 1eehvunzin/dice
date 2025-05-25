@@ -1,10 +1,12 @@
 package com.example.dice.entity;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
-import java.util.List;
+
 
 @Getter
 @NoArgsConstructor
