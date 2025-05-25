@@ -2,9 +2,9 @@ package com.example.dice.service;
 
 import com.example.dice.dto.AddUserRequest;
 import com.example.dice.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.example.dice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor

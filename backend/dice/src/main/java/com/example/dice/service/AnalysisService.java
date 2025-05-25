@@ -1,8 +1,8 @@
 package com.example.dice.service;
 
 import com.example.dice.dto.ScoreInfo;
-import com.example.dice.dto.SurveyAnalysisResultDto;
 import org.springframework.stereotype.Service;
+import com.example.dice.dto.SurveyAnalysisResultDto;
 
 import java.util.List;
 

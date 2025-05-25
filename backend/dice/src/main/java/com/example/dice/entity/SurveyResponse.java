@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Setter
 @Builder
+@Entity
 public class SurveyResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

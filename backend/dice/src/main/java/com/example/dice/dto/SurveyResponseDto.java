@@ -9,10 +9,10 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class SurveyResponseDto {
 
     private Long responseId;

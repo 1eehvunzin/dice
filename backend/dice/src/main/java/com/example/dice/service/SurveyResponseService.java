@@ -3,9 +3,9 @@ package com.example.dice.service;
 import com.example.dice.dto.SurveyResponseDto;
 import com.example.dice.entity.SurveyResponse;
 import com.example.dice.entity.User;
-import com.example.dice.repository.SurveyResponseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.dice.repository.SurveyResponseRepository;
 
 @Service
 public class SurveyResponseService {
