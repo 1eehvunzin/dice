@@ -19,7 +19,7 @@ public class UserApiController {
 
     private final UserService userService;
 
-    @PostMapping("/user")
+    @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody AddUserRequest request){
         userService.save(request); //회원 가입 메서드 호출
         return ResponseEntity.ok("회원가입이 완료되었습니다.");
