@@ -39,15 +39,19 @@ public class WebSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth //인증, 인가 설정
                         .requestMatchers(
+                                new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/signup"),
-                                new AntPathRequestMatcher("/user")
+                                new AntPathRequestMatcher("/user"),
+                                new AntPathRequestMatcher("/home")
+
                         ).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin //폼 기반 로그인 설정
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/articles")
-                )
+//                .formLogin(formLogin -> formLogin //폼 기반 로그인 설정
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/articles")
+//                )
+                .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
