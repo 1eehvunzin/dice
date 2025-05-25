@@ -1,8 +1,9 @@
 package com.example.dice.entity;
 
+
+import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,9 +11,10 @@ import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

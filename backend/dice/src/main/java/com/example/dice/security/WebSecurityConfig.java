@@ -11,16 +11,17 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+
 public class WebSecurityConfig {
 
     private final UserDetailService userService;
@@ -39,15 +40,19 @@ public class WebSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth //인증, 인가 설정
                         .requestMatchers(
+                                new AntPathRequestMatcher("/"),
                                 new AntPathRequestMatcher("/login"),
                                 new AntPathRequestMatcher("/signup"),
-                                new AntPathRequestMatcher("/user")
+                                new AntPathRequestMatcher("/user"),
+                                new AntPathRequestMatcher("/home")
+
                         ).permitAll()
                         .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin //폼 기반 로그인 설정
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/articles")
-                )
+//                .formLogin(formLogin -> formLogin //폼 기반 로그인 설정
+//                        .loginPage("/login")
+//                        .defaultSuccessUrl("/articles")
+//                )
+                .formLogin(AbstractHttpConfigurer::disable)
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
                         .invalidateHttpSession(true)
