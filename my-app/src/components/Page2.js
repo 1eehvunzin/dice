@@ -40,8 +40,8 @@ function Page2({ onMenuClick}) {
         <button className="button_n">아니오</button>
       </div>
       <div style={{display: 'flex', justifyContent: 'center'}}>
-        <button className="button" onClick={() => navigate('/')}>이전으로</button>
-        <button className="button" onClick={() => navigate('/page4')}>다음으로</button>
+        <button className="button" onClick={() => navigate('/page1')}>이전으로</button>
+        <button className="button" onClick={() => navigate('/page3')}>다음으로</button>
       </div>
     </div>
   );
