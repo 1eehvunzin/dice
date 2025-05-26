@@ -70,7 +70,15 @@ public class ResultPageApiController {
 
         // 4. 요약 문단
         Font textFont = new Font(bf, 10);
-        Paragraph summary = new Paragraph(dto.getSummaryText(), textFont);
+
+        Paragraph summary = new Paragraph();
+        summary.setSpacingBefore(250f);
+        document.add(summary);
+        for (String line : dto.getSummaryText()){
+            Paragraph para = new Paragraph(line, textFont);
+            para.setSpacingAfter(8f); // 문장 간 간격
+            document.add(para);
+        }
         summary.setSpacingBefore(150);
         document.add(summary);
 
@@ -95,9 +103,7 @@ public class ResultPageApiController {
         for (String item : dto.getRoutineList()) {
             document.add(new Paragraph(item, new Font(bf, 11)));
         }
-
         document.close();
-
     }
 
     private void drawHalfGauge(PdfContentByte canvas, float centerX, float centerY, float radius, float score) {
@@ -142,7 +148,6 @@ public class ResultPageApiController {
         canvas.setColorFill(fillColor);
         canvas.rectangle(x + 50, y, filledWidth, 10);
         canvas.fill();
-
 
         canvas.beginText();
         canvas.setFontAndSize(bf, 10);
