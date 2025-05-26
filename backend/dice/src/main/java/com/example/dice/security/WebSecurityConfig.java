@@ -1,29 +1,31 @@
 package com.example.dice.security;
 
-import com.example.dice.service.UserDetailService;
+import com.example.dice.service.UserDetailsService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+
 public class WebSecurityConfig {
 
-    private final UserDetailService userService;
+    private final UserDetailsService userService;
 
     //Spring Security 기능 비활성화
     @Bean
@@ -39,14 +41,20 @@ public class WebSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth //인증, 인가 설정
                         .requestMatchers(
-                                new AntPathRequestMatcher("/login"),
-                                new AntPathRequestMatcher("/signup"),
-                                new AntPathRequestMatcher("/user")
+                                new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/signup", HttpMethod.POST.name()),
+                                new AntPathRequestMatcher("/user"),
+                                new AntPathRequestMatcher("/home"),
+                                new AntPathRequestMatcher("/login")
+
                         ).permitAll()
+                        .requestMatchers("/survey/pages/**").authenticated()
                         .anyRequest().authenticated())
-                .formLogin(formLogin -> formLogin //폼 기반 로그인 설정
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/articles")
+                        .formLogin(form -> form
+                                .successHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        })
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login")
@@ -57,15 +65,11 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http,
-                                                       BCryptPasswordEncoder bCryptPasswordEncoder
-    ) throws Exception{
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userService); //사용자 정보 서비스 저장
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
-        return new ProviderManager(authProvider);
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
+        return builder.build();
     }
-
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){

@@ -1,12 +1,15 @@
 package com.example.dice.dto;
 
-import lombok.Getter;
+import jakarta.persistence.Column;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+import lombok.Getter;
 
 @Getter
 @Setter
 public class AddUserRequest {
     private String email;
     private String password;
+    private String name;
+    private Integer age;
+    private String gender;
 }

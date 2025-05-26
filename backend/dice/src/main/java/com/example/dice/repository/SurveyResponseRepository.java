@@ -1,8 +1,10 @@
 package com.example.dice.repository;
 
-import com.example.dice.entity.SurveyResponse;
-import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.dice.entity.SurveyResponse;
+
 
 @Repository
 public interface SurveyResponseRepository extends JpaRepository<SurveyResponse, Long> {
