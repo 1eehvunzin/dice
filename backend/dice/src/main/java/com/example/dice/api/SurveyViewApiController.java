@@ -22,6 +22,4 @@ public class SurveyViewApiController { //설문조사 문항이 나타남
                 ResponseEntity.status(HttpStatus.OK).body(surveyPage) :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
-
-
 }

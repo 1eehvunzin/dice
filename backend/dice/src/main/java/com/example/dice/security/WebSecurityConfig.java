@@ -48,9 +48,10 @@ public class WebSecurityConfig {
                                 new AntPathRequestMatcher("/login")
 
                         ).permitAll()
+                        .requestMatchers("/survey/pages/**").authenticated()
                         .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .successHandler((request, response, authentication) -> {
+                        .formLogin(form -> form
+                                .successHandler((request, response, authentication) -> {
                             response.setStatus(HttpServletResponse.SC_OK);
                         })
                         .permitAll()

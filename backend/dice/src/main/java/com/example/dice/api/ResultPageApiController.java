@@ -3,6 +3,8 @@ package com.example.dice.api;
 import com.example.dice.dto.ScoreInfo;
 import com.example.dice.dto.SurveyAnalysisResultDto;
 import com.example.dice.entity.User;
+import com.example.dice.service.CustomUserDetails;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.PageSize;
@@ -18,13 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.security.Principal;
 
 @RestController
 public class ResultPageApiController {
 
     @PostMapping("/survey/result")
-    public void generatePdf(@RequestBody SurveyAnalysisResultDto dto, @AuthenticationPrincipal User user, HttpServletResponse response) throws IOException {
-        String userName = user.getName();
+    public void generatePdf(@RequestBody SurveyAnalysisResultDto dto, @AuthenticationPrincipal CustomUserDetails userDetails, HttpServletResponse response) throws IOException {
+
+
+        String userName = userDetails.getRealName();
 
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=DICE_리포트_" + userName + ".pdf");
@@ -33,13 +39,27 @@ public class ResultPageApiController {
         PdfWriter writer = PdfWriter.getInstance(document, response.getOutputStream());
         document.open();
 
+        InputStream fontStream = getClass().getClassLoader().getResourceAsStream("static/font/NanumGothic.ttf");
+        if (fontStream == null) {
+            throw new IOException("폰트 파일을 찾을 수 없습니다.");
+        }
+        byte[] fontBytes = fontStream.readAllBytes();
+        BaseFont bf = BaseFont.createFont(
+                "NanumGothic.ttf",
+                BaseFont.IDENTITY_H,
+                BaseFont.EMBEDDED,
+                true,                // forceEmbedding
+                fontBytes,
+                null
+        );
+
         // 1. 제목
-        Font titleFont = new Font(Font.HELVETICA, 18, Font.BOLD, Color.BLACK);
+        Font titleFont = new Font(bf, 18, Font.BOLD, Color.BLACK);
         Paragraph title = new Paragraph("DICE 인지건강 리포트", titleFont);
         document.add(title);
 
         // 2. 이름
-        Font normalFont = new Font(Font.HELVETICA, 12);
+        Font normalFont = new Font(bf, 12);
         Paragraph name = new Paragraph("이름: " + userName, normalFont);
         name.setSpacingBefore(10);
         document.add(name);
@@ -49,7 +69,7 @@ public class ResultPageApiController {
         drawHalfGauge(canvas, 300, 600, 120, dto.getGaugeScore());
 
         // 4. 요약 문단
-        Font textFont = new Font(Font.HELVETICA, 10);
+        Font textFont = new Font(bf, 10);
         Paragraph summary = new Paragraph(dto.getSummaryText(), textFont);
         summary.setSpacingBefore(150);
         document.add(summary);
@@ -58,25 +78,26 @@ public class ResultPageApiController {
         document.newPage();
 
         // 5. 클러스터 설명
-        Paragraph clusterTitle = new Paragraph("[클러스터 유형 설명]", new Font(Font.HELVETICA, 13));
+        Paragraph clusterTitle = new Paragraph("[클러스터 유형 설명]", new Font(bf, 13));
         document.add(clusterTitle);
         for (String line : dto.getClusterDescList()) {
             document.add(new Paragraph("- " + line, textFont));
         }
 
-        document.add(new Paragraph("\n[항목별 상태 점수 및 해석]", new Font(Font.HELVETICA, 13)));
+        document.add(new Paragraph("\n[항목별 상태 점수 및 해석]", new Font(bf, 13)));
         for (ScoreInfo info : dto.getScores()) {
-            drawScoreBar(canvas, 60, writer.getVerticalPosition(true) - 30, info);
+            drawScoreBar(canvas, 60, writer.getVerticalPosition(true) - 30, info, bf);
             document.add(new Paragraph(" "));
         }
 
         // 6. 루틴 리스트
-        document.add(new Paragraph("\n[오늘부터 시작하는 뇌 건강 루틴]", new Font(Font.HELVETICA, 13)));
+        document.add(new Paragraph("\n[오늘부터 시작하는 뇌 건강 루틴]", new Font(bf, 13)));
         for (String item : dto.getRoutineList()) {
-            document.add(new Paragraph(item, new Font(Font.HELVETICA, 11)));
+            document.add(new Paragraph(item, new Font(bf, 11)));
         }
 
         document.close();
+
     }
 
     private void drawHalfGauge(PdfContentByte canvas, float centerX, float centerY, float radius, float score) {
@@ -104,7 +125,7 @@ public class ResultPageApiController {
         canvas.fill();
     }
 
-    private void drawScoreBar(PdfContentByte canvas, float x, float y, ScoreInfo info) throws IOException {
+    private void drawScoreBar(PdfContentByte canvas, float x, float y, ScoreInfo info, BaseFont bf) throws IOException {
         float maxWidth = 100f;
         float filledWidth = (info.getScore() / info.getMaxScore()) * maxWidth;
 
@@ -122,12 +143,14 @@ public class ResultPageApiController {
         canvas.rectangle(x + 50, y, filledWidth, 10);
         canvas.fill();
 
+
         canvas.beginText();
-        canvas.setFontAndSize(BaseFont.createFont(), 10);
+        canvas.setFontAndSize(bf, 10);
         canvas.setColorFill(Color.BLACK);
         canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getLabel(), x, y + 12, 0);
         canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getScore() + "/" + info.getMaxScore(), x + 160, y + 2, 0);
         canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, "- " + info.getExplanation(), x, y - 10, 0);
         canvas.endText();
+
     }
 }
