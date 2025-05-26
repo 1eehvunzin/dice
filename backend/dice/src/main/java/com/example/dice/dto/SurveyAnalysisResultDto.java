@@ -10,9 +10,8 @@ import java.util.List;
 @Getter
 public class SurveyAnalysisResultDto {
     private float gaugeScore;
-    private String summaryText;
+    private List<String> summaryText;
     private List<String> clusterDescList;
     private List<String> routineList;
     private List<ScoreInfo> scores;
-
 }
