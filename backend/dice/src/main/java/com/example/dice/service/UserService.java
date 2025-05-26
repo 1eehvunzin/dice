@@ -19,6 +19,9 @@ public class UserService {
         return userRepository.save(User.builder()
                 .email(dto.getEmail())
                 .password(bCryptPasswordEncoder.encode(dto.getPassword())) //패스워드 암호화
+                .age(dto.getAge())
+                .gender(dto.getGender())
+                .name(dto.getName())
                 .build()).getId();
     }
 }
