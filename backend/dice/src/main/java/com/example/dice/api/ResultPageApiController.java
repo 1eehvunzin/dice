@@ -14,6 +14,7 @@ import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +28,9 @@ import java.security.Principal;
 public class ResultPageApiController {
 
     @PostMapping("/survey/result")
-    public void generatePdf(@RequestBody SurveyAnalysisResultDto dto, @AuthenticationPrincipal CustomUserDetails userDetails, HttpServletResponse response) throws IOException {
-
+    public void generatePdf(@RequestBody SurveyAnalysisResultDto dto,
+                            @AuthenticationPrincipal CustomUserDetails userDetails,
+                            HttpServletResponse response) throws IOException {
 
         String userName = userDetails.getRealName();
 
@@ -74,7 +76,7 @@ public class ResultPageApiController {
         Paragraph summary = new Paragraph();
         summary.setSpacingBefore(250f);
         document.add(summary);
-        for (String line : dto.getSummaryText()){
+        for (String line : dto.getSummaryText()) {
             Paragraph para = new Paragraph(line, textFont);
             para.setSpacingAfter(8f); // 문장 간 간격
             document.add(para);
@@ -131,8 +133,8 @@ public class ResultPageApiController {
         canvas.fill();
     }
 
-    private void drawScoreBar(PdfContentByte canvas, float x, float y, ScoreInfo info, BaseFont bf) throws IOException {
-        float maxWidth = 100f;
+    private void drawScoreBar(PdfContentByte canvas, float x, float y, ScoreInfo info, BaseFont bf) {
+        float maxWidth = 80f;
         float filledWidth = (info.getScore() / info.getMaxScore()) * maxWidth;
 
         Color fillColor;
@@ -141,21 +143,23 @@ public class ResultPageApiController {
         else if (ratio >= 0.5) fillColor = Color.ORANGE;
         else fillColor = Color.RED;
 
+        // 테두리
         canvas.setColorStroke(Color.GRAY);
         canvas.rectangle(x + 50, y, maxWidth, 10);
         canvas.stroke();
 
+        // 색 채우기
         canvas.setColorFill(fillColor);
         canvas.rectangle(x + 50, y, filledWidth, 10);
         canvas.fill();
 
+        // 텍스트
         canvas.beginText();
         canvas.setFontAndSize(bf, 10);
         canvas.setColorFill(Color.BLACK);
-        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getLabel(), x, y + 12, 0);
-        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getScore() + "/" + info.getMaxScore(), x + 160, y + 2, 0);
-        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, "- " + info.getExplanation(), x, y - 10, 0);
+        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getLabel(), x, y + 14, 0);
+        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, info.getScore() + "/" + info.getMaxScore(), x + 160, y + 3, 0);
+        canvas.showTextAligned(PdfContentByte.ALIGN_LEFT, "- " + info.getExplanation(), x, y - 8, 0);
         canvas.endText();
-
     }
 }
