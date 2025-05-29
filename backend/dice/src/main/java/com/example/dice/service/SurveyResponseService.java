@@ -17,5 +17,6 @@ public class SurveyResponseService {
         SurveyResponse surveyResponse = surveyResponseDto.toEntity(); //dto를 폼으로 입력받은 후, 엔티티로 변환
         surveyResponse.setUser(user);
         return surveyResponseRepository.save(surveyResponse); //리포지토리에 엔티티 저장
+
     }
 }

@@ -74,7 +74,6 @@ public class SurveyResponse {
     @Column
     private Integer difficultyInActivities;
 
-
     @Column
     private String smoking;
     @Column

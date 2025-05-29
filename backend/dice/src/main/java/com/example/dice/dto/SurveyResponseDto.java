@@ -89,7 +89,6 @@ public class SurveyResponseDto {
                         return rw;
                     })
                     .toList();
-
             surveyResponse.setRememberedWords(rememberedWordEntities);
         }
         return surveyResponse;
