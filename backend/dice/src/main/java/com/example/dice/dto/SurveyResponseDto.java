@@ -17,19 +17,17 @@ public class SurveyResponseDto {
 
     private Long responseId;
     private LocalDate date;
-    private String province;
-    private String city;
+    private String place;
+    private String pronunciation;
+    private Integer calculation;
     private List<String> rememberedWords;
-    private List<String> fruits;
+    private String language;
+    private String judgement;
 
     private Boolean lifeSatisfaction;
-    private Boolean lifeInterest;
     private Boolean lethargy;
     private Boolean loneliness;
     private Boolean emotionalInstability;
-
-    private Boolean motorAbility;
-    private Integer difficultyInActivities;
 
     private String sleepingDisorder;
     private String sleepWake;
@@ -39,40 +37,49 @@ public class SurveyResponseDto {
     private String heavyDrinking;
     private String badDrinking;
 
-    private String smoking;
-    private String smokingAmount;
-
     private Integer height;
     private Integer weight;
 
+    private Boolean motorAbility;
+    private Integer difficultyInActivities;
+
+    private String smoking;
+    private String smokingAmount;
+
     private String academicAbility;
+
+    private Boolean analyzed;
+
+
 
     public SurveyResponse toEntity() {
         return SurveyResponse.builder()
                 .responseId(responseId)
                 .date(date)
-                .province(province)
-                .city(city)
+                .place(place)
+                .pronunciation(pronunciation)
+                .calculation(calculation)
                 .rememberedWords(rememberedWords)
-                .fruits(fruits)
+                .language(language)
+                .judgement(judgement)
                 .lifeSatisfaction(lifeSatisfaction)
-                .lifeInterest(lifeInterest)
                 .lethargy(lethargy)
                 .loneliness(loneliness)
                 .emotionalInstability(emotionalInstability)
-                .motorAbility(motorAbility)
-                .difficultyInActivities(difficultyInActivities)
                 .sleepingDisorder(sleepingDisorder)
                 .sleepWake(sleepWake)
                 .sleepingHour(sleepingHour)
                 .drinkingFrequency(drinkingFrequency)
                 .heavyDrinking(heavyDrinking)
                 .badDrinking(badDrinking)
-                .smoking(smoking)
-                .smokingAmount(smokingAmount)
                 .height(height)
                 .weight(weight)
+                .motorAbility(motorAbility)
+                .difficultyInActivities(difficultyInActivities)
+                .smoking(smoking)
+                .smokingAmount(smokingAmount)
                 .academicAbility(academicAbility)
+                .analyzed(false)
                 .build();
     }
 }
