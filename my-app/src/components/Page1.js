@@ -69,6 +69,28 @@ function Page1({ onMenuClick}) {
     style={{ width: '80%', padding: '10px', fontSize: '16px' }}
     />
 
+    <h2 style={{textAlign: 'left', width: '90%'}}>5. 앞선 문항에서 발음한 단어 3개를 기억하시나요? 최대한 기억나는 내용을 작성해주세요.</h2>
+    <input
+    type="text"
+    placeholder="각 단어는 쉼표로 구분하여 작성 예) 학교, 공원"
+    style={{ width: '80%', padding: '10px', fontSize: '16px' }}
+    />
+
+    <h2 style={{textAlign: 'left', width: '90%'}}>6. 이 물건의 이름이 무엇인가요 ?</h2>
+    <img src="/images/pencil.jpg" alt="landing" style={{ width: '244px', height: '244px', margin: '25px'}}/>
+    <input
+    type="text"
+    placeholder="단어를 입력하세요"
+    style={{ width: '80%', padding: '10px', fontSize: '16px' }}
+    />
+
+    <h2 style={{textAlign: 'left', width: '90%'}}>7. 불이 났을 때 어디로 전화해야 하나요?</h2>
+    <input
+    type="text"
+    placeholder="단어를 입력하세요"
+    style={{ width: '80%', padding: '10px', fontSize: '16px' }}
+    />
+
     <button className="button" onClick={() => navigate('/page2')}>다음으로</button>
     <button className="button" style={{background: 'white', color: 'black', textDecoration: 'underline'}} onClick={() => navigate('/')}>이전으로</button>
     
