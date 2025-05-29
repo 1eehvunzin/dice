@@ -51,8 +51,6 @@ public class SurveyResponseDto {
 
     private Boolean analyzed;
 
-
-
     public SurveyResponse toEntity() {
         SurveyResponse surveyResponse = SurveyResponse.builder()
                 .responseId(responseId)
