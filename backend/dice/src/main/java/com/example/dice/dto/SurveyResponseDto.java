@@ -1,5 +1,6 @@
 package com.example.dice.dto;
 
+import com.example.dice.entity.RememberedWords;
 import com.example.dice.entity.SurveyResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -50,16 +51,13 @@ public class SurveyResponseDto {
 
     private Boolean analyzed;
 
-
-
     public SurveyResponse toEntity() {
-        return SurveyResponse.builder()
+        SurveyResponse surveyResponse = SurveyResponse.builder()
                 .responseId(responseId)
                 .date(date)
                 .place(place)
                 .pronunciation(pronunciation)
                 .calculation(calculation)
-                .rememberedWords(rememberedWords)
                 .language(language)
                 .judgement(judgement)
                 .lifeSatisfaction(lifeSatisfaction)
@@ -81,5 +79,19 @@ public class SurveyResponseDto {
                 .academicAbility(academicAbility)
                 .analyzed(false)
                 .build();
+
+        if (rememberedWords != null) {
+            List<RememberedWords> rememberedWordEntities = rememberedWords.stream()
+                    .map(word -> {
+                        RememberedWords rw = new RememberedWords();
+                        rw.setWord(word);
+                        rw.setSurveyResponse(surveyResponse);
+                        return rw;
+                    })
+                    .toList();
+
+            surveyResponse.setRememberedWords(rememberedWordEntities);
+        }
+        return surveyResponse;
     }
 }
