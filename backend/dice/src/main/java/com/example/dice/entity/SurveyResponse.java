@@ -33,9 +33,8 @@ public class SurveyResponse {
     private String pronunciation; //기억등록
     @Column
     private Integer calculation; //주의집중 및 계산
-    @ElementCollection //기억 회상
-    @CollectionTable(name = "RememberedWords"/*, joinColumns = @JoinColumn(name = "survey_id")*/)
-    private List<String> rememberedWords;
+    @OneToMany(mappedBy = "surveyResponse", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RememberedWords> rememberedWords;
     @Column
     private String language; //언어 기능
     @Column
