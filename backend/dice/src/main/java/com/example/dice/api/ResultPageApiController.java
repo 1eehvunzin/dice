@@ -2,9 +2,11 @@ package com.example.dice.api;
 
 import com.example.dice.dto.ScoreInfo;
 import com.example.dice.dto.SurveyAnalysisResultDto;
+import com.example.dice.entity.ResponseAnalysis;
+import com.example.dice.entity.SurveyResponse;
 import com.example.dice.entity.User;
+import com.example.dice.repository.ResponseAnalysisRepository;
 import com.example.dice.service.CustomUserDetails;
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.lowagie.text.Document;
 import com.lowagie.text.Font;
 import com.lowagie.text.PageSize;
@@ -13,26 +15,36 @@ import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfWriter;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.Principal;
+import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 public class ResultPageApiController {
 
-    @PostMapping("/survey/result")
-    public void generatePdf(@RequestBody SurveyAnalysisResultDto dto,
+    private final ResponseAnalysisRepository responseAnalysisRepository;
+
+    @GetMapping("/survey/result")
+    public void generatePdf(@RequestParam Long responseId,
                             @AuthenticationPrincipal CustomUserDetails userDetails,
                             HttpServletResponse response) throws IOException {
 
         String userName = userDetails.getRealName();
+
+        ResponseAnalysis analysis = responseAnalysisRepository.findBySurveyResponse_ResponseId(responseId)
+                .orElseThrow(() -> new IllegalArgumentException("분석 결과를 찾을 수 없습니다."));
+        SurveyResponse survey = analysis.getSurveyResponse();
+
+        // DTO 변환
+        SurveyAnalysisResultDto dto = SurveyAnalysisResultDto.fromEntity(analysis);
 
         response.setContentType("application/pdf");
         response.setHeader("Content-Disposition", "attachment; filename=DICE_리포트_" + userName + ".pdf");
@@ -50,44 +62,37 @@ public class ResultPageApiController {
                 "NanumGothic.ttf",
                 BaseFont.IDENTITY_H,
                 BaseFont.EMBEDDED,
-                true,                // forceEmbedding
+                true,
                 fontBytes,
                 null
         );
 
-        // 1. 제목
         Font titleFont = new Font(bf, 18, Font.BOLD, Color.BLACK);
         Paragraph title = new Paragraph("DICE 인지건강 리포트", titleFont);
         document.add(title);
 
-        // 2. 이름
         Font normalFont = new Font(bf, 12);
         Paragraph name = new Paragraph("이름: " + userName, normalFont);
         name.setSpacingBefore(10);
         document.add(name);
 
-        // 3. 반원 게이지
         PdfContentByte canvas = writer.getDirectContent();
         drawHalfGauge(canvas, 300, 600, 120, dto.getGaugeScore());
 
-        // 4. 요약 문단
         Font textFont = new Font(bf, 10);
-
         Paragraph summary = new Paragraph();
         summary.setSpacingBefore(250f);
         document.add(summary);
         for (String line : dto.getSummaryText()) {
             Paragraph para = new Paragraph(line, textFont);
-            para.setSpacingAfter(8f); // 문장 간 간격
+            para.setSpacingAfter(8f);
             document.add(para);
         }
         summary.setSpacingBefore(150);
         document.add(summary);
 
-        // ---------- PAGE 2 ----------
         document.newPage();
 
-        // 5. 클러스터 설명
         Paragraph clusterTitle = new Paragraph("[클러스터 유형 설명]", new Font(bf, 13));
         document.add(clusterTitle);
         for (String line : dto.getClusterDescList()) {
@@ -100,7 +105,6 @@ public class ResultPageApiController {
             document.add(new Paragraph(" "));
         }
 
-        // 6. 루틴 리스트
         document.add(new Paragraph("\n[오늘부터 시작하는 뇌 건강 루틴]", new Font(bf, 13)));
         for (String item : dto.getRoutineList()) {
             document.add(new Paragraph(item, new Font(bf, 11)));
@@ -143,17 +147,14 @@ public class ResultPageApiController {
         else if (ratio >= 0.5) fillColor = Color.ORANGE;
         else fillColor = Color.RED;
 
-        // 테두리
         canvas.setColorStroke(Color.GRAY);
         canvas.rectangle(x + 50, y, maxWidth, 10);
         canvas.stroke();
 
-        // 색 채우기
         canvas.setColorFill(fillColor);
         canvas.rectangle(x + 50, y, filledWidth, 10);
         canvas.fill();
 
-        // 텍스트
         canvas.beginText();
         canvas.setFontAndSize(bf, 10);
         canvas.setColorFill(Color.BLACK);
