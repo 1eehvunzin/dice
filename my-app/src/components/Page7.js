@@ -31,20 +31,10 @@ function Page7({ onMenuClick}) {
     <button className="button" style={{background: 'white', color: 'black', border: '1px solid black'}}>금연중이다</button>
     <button className="button" style={{background: 'white', color: 'black', border: '1px solid black'}}>현재도 흡연 중이다</button>
 
-    <h2 style={{textAlign: 'left', width: '90%'}}>21. 최근 한 달간, 다음 중 혼자 하기 어려웠던 활동이 몇 개 있나요? </h2>
-    <h3 style={{color: 'blue'}}>
-      1) 옷 입기<br/>
-      2) 세수 / 양치질 / 머리감기<br/>
-      3) 목욕 또는 샤워하기<br/>
-      4) 차려 놓은 음식 먹기<br/>
-      5) 누웠다 일어나 방 밖으로 나가기<br/>
-      6) 화장실 출입과 대소변 후 닦고 옷 입기<br/>
-      7) 대소변 조절하기</h3>
-    <input
-    type="number"
-    placeholder="숫자만 입력하세요 예) 3"
-    style={{ width: '80%', padding: '10px', fontSize: '16px' }}
-    />
+    <h2 style={{textAlign: 'left', width: '90%'}}>23. (현재 흡연 응답자만) 하루 몇 개비 정도 피우십니까? </h2>
+    <button className="button" style={{background: 'white', color: 'black', border: '1px solid black'}}>5개비 이하</button>
+    <button className="button" style={{background: 'white', color: 'black', border: '1px solid black'}}>6개비 ~ 19개비</button>
+    <button className="button" style={{background: 'white', color: 'black', border: '1px solid black'}}>한 갑(20개비) 이상</button>
 
     <button className="button" onClick={() => navigate('/page8')}>다음으로</button>
     <button className="button" style={{background: 'white', color: 'black', textDecoration: 'underline'}} onClick={() => navigate('/page6')}>이전으로</button>
